@@ -1,0 +1,7 @@
+Step,Films remaining,Dropped
+Raw movies x credits (joined),4803,0
+Status == Released,4795,8
+"Release year in [1960, 2017]",4722,73
+"Budget and revenue >= $10,000",3143,1579
+Runtime > 0,3143,0
+Non-empty cast and crew lists,3139,4

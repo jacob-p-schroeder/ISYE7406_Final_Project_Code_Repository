@@ -1,0 +1,6 @@
+variable,spearman_rho_vs_year,p_value
+budget_real,-0.0343,0.0547
+revenue_real,-0.0741,0.0000
+roi,-0.0702,0.0001
+cast_size,0.1384,0.0000
+crew_size,0.1608,0.0000

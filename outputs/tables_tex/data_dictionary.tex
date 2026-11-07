@@ -1,0 +1,21 @@
+\begin{tabular}{p{0.26\textwidth}p{0.46\textwidth}p{0.2\textwidth}}
+\toprule
+Variable & Description & Source \\
+\midrule
+\texttt{budget / budget\_real} & Production budget, nominal USD / 2017 USD (CPI-adjusted) & TMDB movies \\
+\texttt{revenue / revenue\_real} & Worldwide box office, nominal USD / 2017 USD & TMDB movies \\
+\texttt{roi} & revenue\_real / budget\_real & Engineered \\
+\texttt{release\_year, era} & Year and era ($\leq$1979, 1980s, ..., 2010s) of release & TMDB movies \\
+\texttt{runtime} & Runtime in minutes & TMDB movies \\
+\texttt{vote\_average, vote\_count} & TMDB user rating and number of ratings & TMDB movies \\
+\texttt{popularity} & TMDB popularity score & TMDB movies \\
+\texttt{primary\_genre, n\_genres} & First-listed genre and number of genres & Parsed from JSON \\
+\texttt{n\_prod\_companies, is\_english} & Number of production companies; English-language flag & Parsed from JSON \\
+\texttt{cast\_size} & Number of credited cast members & Parsed from credits JSON \\
+\texttt{crew\_size} & Number of credited crew members & Parsed from credits JSON \\
+\texttt{crew\_<department>} & Crew counts by department (Production, Sound, Art, ...) & Parsed from credits JSON \\
+\texttt{crew\_departments} & Number of distinct crew departments credited & Parsed from credits JSON \\
+\texttt{n\_noms, n\_wins} & Oscar nominations / wins per film (all categories) & Oscar dataset (merged) \\
+\texttt{nominated, won} & 1 if film has $\geq$1 nomination / $\geq$1 win & Engineered \\
+\bottomrule
+\end{tabular}

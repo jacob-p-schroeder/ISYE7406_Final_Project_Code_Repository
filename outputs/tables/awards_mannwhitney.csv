@@ -1,0 +1,9 @@
+stage,variable,n_group0,n_group1,median_group0,median_group1,mannwhitney_p
+A: nominated vs not,ln_budget_real,2392,747,17.3603,17.6333,0.0000
+A: nominated vs not,vote_average,2392,747,6.1000,7.1000,0.0000
+A: nominated vs not,cast_size,2392,747,18.0000,24.0000,0.0000
+A: nominated vs not,crew_size,2392,747,19.0000,29.0000,0.0000
+B: won vs lost (nominees only),ln_budget_real,447,300,17.6998,17.5708,0.0948
+B: won vs lost (nominees only),vote_average,447,300,6.9000,7.3000,0.0000
+B: won vs lost (nominees only),cast_size,447,300,22.0000,28.0000,0.0000
+B: won vs lost (nominees only),crew_size,447,300,26.0000,31.0000,0.0253

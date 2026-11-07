@@ -1,0 +1,16 @@
+Variable,Description,Source
+budget / budget_real,"Production budget, nominal USD / 2017 USD (CPI-adjusted)",TMDB movies
+revenue / revenue_real,"Worldwide box office, nominal USD / 2017 USD",TMDB movies
+roi,revenue_real / budget_real,Engineered
+"release_year, era","Year and era (<=1979, 1980s, ..., 2010s) of release",TMDB movies
+runtime,Runtime in minutes,TMDB movies
+"vote_average, vote_count",TMDB user rating and number of ratings,TMDB movies
+popularity,TMDB popularity score,TMDB movies
+"primary_genre, n_genres",First-listed genre and number of genres,Parsed from JSON
+"n_prod_companies, is_english",Number of production companies; English-language flag,Parsed from JSON
+cast_size,Number of credited cast members,Parsed from credits JSON
+crew_size,Number of credited crew members,Parsed from credits JSON
+crew_<department>,"Crew counts by department (Production, Sound, Art, ...)",Parsed from credits JSON
+crew_departments,Number of distinct crew departments credited,Parsed from credits JSON
+"n_noms, n_wins",Oscar nominations / wins per film (all categories),Oscar dataset (merged)
+"nominated, won",1 if film has >=1 nomination / >=1 win,Engineered

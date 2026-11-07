@@ -1,0 +1,4 @@
+stage,n,rate
+All films,3139,
+Nominated (>=1 nomination),747,0.238
+Won (>=1 win) among nominated,300,0.402

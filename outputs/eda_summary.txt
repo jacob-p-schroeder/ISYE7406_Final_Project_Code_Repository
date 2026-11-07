@@ -1,0 +1,284 @@
+
+==============================================================================
+LOADING DATA
+==============================================================================
+movies:  (4803, 20)   credits: (4803, 4)
+merged on movie id: (4803, 22)
+
+==============================================================================
+CLEANING FUNNEL
+==============================================================================
+                         Step  Films remaining  Dropped
+Raw movies x credits (joined)             4803        0
+           Status == Released             4795        8
+ Release year in [1960, 2017]             4722       73
+Budget and revenue >= $10,000             3143     1579
+                  Runtime > 0             3143        0
+Non-empty cast and crew lists             3139        4
+  [table]  cleaning_funnel.csv
+
+==============================================================================
+MERGING OSCAR DATA
+==============================================================================
+Oscar rows (with a film): 10,877   years 1927-2025
+Oscar-nominated films in window: 3,016; matched to analysis set: 747
+  (Unmatched films are expected: TMDB-5000 is a subset and we dropped films lacking budget/revenue.
+   Review tables/oscar_unmatched_check.csv for title-format mismatches, e.g. subtitles or punctuation.)
+Analysis films nominated: 747  |  won >=1 award: 300
+
+==============================================================================
+SECTION 2.2  DATA DESCRIPTION
+==============================================================================
+  [table]  data_dictionary.csv
+
+Full joined dataset: 4,803 films x 44 columns
+Analysis dataset:    3,139 films (1960.0-2016.0)
+
+Missing / zero values among released films (pre-cleaning), %:
+                       pct_missing_or_zero
+budget (0 = missing)                 21.52
+revenue (0 = missing)                29.61
+runtime                               0.75
+release_date                          0.02
+cast list empty                       0.86
+crew list empty                       0.54
+homepage                             64.36
+tagline                              17.48
+  [table]  missingness.csv
+
+Share of films with usable budget & revenue, by era (selection-bias check):
+        films  usable  pct_usable
+era                              
+<=1979    180     139        77.2
+1980s     278     204        73.4
+1990s     778     535        68.8
+2000s    2044    1324        64.8
+2010s    1441     941        65.3
+  [table]  usable_by_era.csv
+
+Summary statistics (analysis set):
+                   count          mean           std       min          25%          50%           75%           max   skew
+budget            3139.0  4.171072e+07  4.454794e+07  10000.00  12000000.00  27000000.00  5.500000e+07  3.800000e+08   2.07
+budget_real       3139.0  5.414143e+07  5.266846e+07  17735.17  16856946.35  37136363.64  7.529954e+07  4.141307e+08   1.72
+revenue           3139.0  1.241666e+08  1.879214e+08  10000.00  18481021.00  58058367.00  1.498529e+08  2.787965e+09   3.79
+revenue_real      3139.0  1.704093e+08  2.552312e+08  11426.57  26356736.82  81038461.54  2.028534e+08  3.185689e+09   3.87
+roi               3139.0  1.102000e+01  2.427200e+02      0.00         1.02         2.27  4.330000e+00  1.289039e+04  49.22
+runtime           3139.0  1.106600e+02  2.066000e+01     41.00        96.00       107.00  1.210000e+02  3.380000e+02   1.68
+vote_average      3139.0  6.300000e+00  8.600000e-01      0.00         5.80         6.30  6.900000e+00  8.500000e+00  -0.52
+vote_count        3139.0  9.977600e+02  1.427190e+03      0.00       191.50       485.00  1.172500e+03  1.375200e+04   3.17
+popularity        3139.0  2.952000e+01  3.646000e+01      0.02        11.00        20.83  3.771000e+01  8.755800e+02   9.27
+cast_size         3139.0  2.599000e+01  2.099000e+01      1.00        14.00        19.00  3.000000e+01  2.240000e+02   3.05
+crew_size         3139.0  3.445000e+01  3.538000e+01      1.00        12.00        21.00  4.500000e+01  4.350000e+02   2.31
+crew_departments  3139.0  7.940000e+00  2.490000e+00      1.00         7.00         8.00  1.000000e+01  1.100000e+01  -0.80
+n_genres          3139.0  2.660000e+00  1.120000e+00      1.00         2.00         3.00  3.000000e+00  7.000000e+00   0.38
+n_prod_companies  3139.0  3.240000e+00  2.170000e+00      0.00         2.00         3.00  4.000000e+00  2.600000e+01   2.04
+  [table]  summary_statistics.csv
+
+Mean crew count by department:
+                      mean_crew_count
+crew_production                  7.14
+crew_sound                       4.39
+crew_art                         4.07
+crew_crew                        4.01
+crew_costume_make_up             3.07
+crew_writing                     2.48
+crew_camera                      2.43
+crew_visual_effects              2.19
+crew_editing                     2.05
+crew_directing                   1.90
+crew_lighting                    0.70
+crew_actors                      0.00
+  [table]  crew_department_means.csv
+  [figure] fig_films_per_year.png
+
+==============================================================================
+2.3  EDA - UNIVARIATE DISTRIBUTIONS
+==============================================================================
+  [figure] fig_distributions.png
+  Skewness (raw -> log): budget_real: 1.7 -> -1.29, revenue_real: 3.9 -> -1.25, cast_size: 3.0 -> 0.24, crew_size: 2.3 -> -0.26
+
+==============================================================================
+2.3  EDA - TIME TRENDS (RQ1)
+==============================================================================
+  [figure] fig_time_trends.png
+        films  median_budget_nominal  median_budget_real  median_revenue_real  median_roi  pct_budget_ge_100M_real  median_cast  median_crew  median_runtime
+era                                                                                                                                                         
+<=1979    139              4000000.0         25970860.93         1.335695e+08        5.92                    11.51         20.0         16.0           121.0
+1980s     204             13900000.0         29975565.77         9.062063e+07        3.97                     4.90         18.0         17.0           107.0
+1990s     535             30000000.0         47493425.61         8.412849e+07        2.11                    18.13         18.0         17.0           108.0
+2000s    1321             30000000.0         38925357.33         7.424868e+07        1.98                    16.65         18.0         22.0           105.0
+2010s     940             30000000.0         32025261.32         8.042205e+07        2.42                    17.87         22.0         26.0           107.0
+  [table]  era_summary.csv
+
+Monotonic trend vs release year:
+              spearman_rho_vs_year  p_value
+variable                                   
+budget_real                -0.0343   0.0547
+revenue_real               -0.0741   0.0000
+roi                        -0.0702   0.0001
+cast_size                   0.1384   0.0000
+crew_size                   0.1608   0.0000
+  [table]  trend_tests.csv
+  [figure] fig_crew_composition_by_era.png
+
+==============================================================================
+2.3  EDA - BUDGET vs REVENUE BY ERA (RQ1)
+==============================================================================
+  [figure] fig_budget_revenue_by_era.png
+           n  pearson_r  ci_lo  ci_hi  spearman_rho  ols_slope  slope_se  r_squared
+era                                                                                
+<=1979   139      0.225  0.061  0.378         0.275      0.218     0.080      0.051
+1980s    204      0.407  0.286  0.516         0.386      0.572     0.090      0.166
+1990s    535      0.616  0.561  0.666         0.616      0.869     0.048      0.380
+2000s   1321      0.661  0.630  0.690         0.684      0.919     0.029      0.437
+2010s    940      0.703  0.669  0.734         0.768      1.032     0.034      0.494
+  [table]  budget_revenue_by_era.csv
+  [figure] fig_correlation_by_era.png
+
+Quick preview of RQ1 interaction (full modelling goes in Section 5):
+=========================================================================================
+                            coef    std err          z      P>|z|      [0.025      0.975]
+-----------------------------------------------------------------------------------------
+Intercept                 2.8962      0.506      5.718      0.000       1.904       3.889
+ln_budget_real            0.8718      0.029     30.360      0.000       0.816       0.928
+year_c                   -0.3435      0.036     -9.635      0.000      -0.413      -0.274
+ln_budget_real:year_c     0.0189      0.002      9.183      0.000       0.015       0.023
+=========================================================================================
+
+Return on budget by budget tier (2017 USD):
+             films  median_roi  pct_unprofitable   iqr
+budget_real                                           
+<$10M          482        3.24             27.59  8.84
+$10-50M       1440        2.25             26.25  3.46
+$50-100M       706        2.02             24.79  2.41
+>$100M         511        2.38             16.44  2.42
+  [table]  roi_by_budget_tier.csv
+  [figure] fig_roi_by_budget_tier.png
+
+==============================================================================
+2.3  EDA - PRODUCTION SCALE vs BUDGET (RQ2)
+==============================================================================
+  [figure] fig_scale_vs_budget.png
+Does scale carry signal about revenue beyond budget? (partial correlations)
+                raw_r_with_ln_revenue  partial_r_given_budget  p_budget  partial_r_given_budget_year  p_budget_year     n
+scale_variable                                                                                                           
+ln_cast_size                   0.3751                  0.2393       0.0                       0.2543            0.0  3139
+ln_crew_size                   0.3795                  0.2199       0.0                       0.2481            0.0  3139
+  [table]  partial_correlations.csv
+
+Variance inflation factors (relevant for Lasso/Ridge motivation in RQ2):
+ln_budget_real    1.25
+ln_cast_size      1.30
+ln_crew_size      1.29
+release_year      1.06
+runtime           1.20
+  [table]  vif.csv
+
+==============================================================================
+2.3  EDA - CORRELATION MATRIX
+==============================================================================
+  [table]  spearman_correlations.csv
+  [figure] fig_correlation_heatmap.png
+Spearman correlation with ln revenue (sorted by |rho|):
+vote_count          0.697
+popularity          0.658
+ln_budget_real      0.653
+ln_crew_size        0.365
+ln_cast_size        0.362
+crew_departments    0.340
+runtime             0.267
+vote_average        0.196
+n_genres            0.182
+is_english          0.142
+n_prod_companies    0.107
+release_year       -0.074
+
+==============================================================================
+2.3  EDA - GENRE
+==============================================================================
+                 films  median_budget_real  median_revenue_real  median_roi  median_cast  median_crew
+genre                                                                                                
+Drama             1385         28610894.94         5.795338e+07        2.02         19.0         20.0
+Comedy            1089         34584662.58         8.030728e+07        2.30         19.0         16.0
+Thriller           925         40323254.78         7.948953e+07        2.17         19.0         26.0
+Action             908         64109166.90         1.236738e+08        2.16         21.0         26.5
+Adventure          653         81745414.12         1.902759e+08        2.38         22.0         26.0
+Romance            544         30139802.77         6.525617e+07        2.31         19.0         16.0
+Crime              516         35427659.21         6.790933e+07        2.00         20.0         22.0
+Science Fiction    425         62846153.85         1.157788e+08        2.23         21.0         28.0
+Family             356         73796686.03         1.654495e+08        2.51         19.0         20.5
+Fantasy            336         80238269.57         1.618616e+08        2.23         22.0         24.0
+Horror             328         19079614.73         6.668444e+07        2.89         17.0         23.0
+Mystery            261         38143619.39         8.246248e+07        2.12         18.0         25.0
+Animation          181         90738240.42         2.574916e+08        2.73         17.0         25.0
+History            138         43905388.94         8.686819e+07        1.87         23.0         22.0
+War                111         55905162.06         1.038721e+08        1.88         22.0         40.0
+Music              100         30609722.51         8.505157e+07        3.12         17.5         16.0
+Western             51         41256312.17         5.247279e+07        1.58         19.0         18.0
+Documentary         35          3373530.97         1.325589e+07        2.73          6.0          8.0
+Foreign              3          1423344.95         1.710180e+05        0.49          8.0          3.0
+  [table]  genre_summary.csv
+  [figure] fig_genre_summary.png
+
+==============================================================================
+2.3  EDA - AWARDS (RQ4)
+==============================================================================
+                        stage    n     rate
+                    All films 3139      NaN
+   Nominated (>=1 nomination)  747 0.237974
+Won (>=1 win) among nominated  300 0.401606
+  [table]  awards_class_balance.csv
+Budget quartile edges ($M, 2017): 0.0, 16.9, 37.1, 75.3, 414.1
+  [table]  awards_nomination_by_budget_quartile.csv
+
+P(nominated) by budget quartile:
+                n  events   rate  ci_lo  ci_hi
+budget_q                                      
+Q1 (lowest)   788     152  0.193  0.167  0.222
+Q2            782     158  0.202  0.175  0.232
+Q3            786     183  0.233  0.205  0.264
+Q4 (highest)  783     254  0.324  0.293  0.358
+  [table]  awards_win_by_budget_quartile.csv
+
+P(win | nominated) by budget quartile:
+                n  events   rate  ci_lo  ci_hi
+budget_q                                      
+Q1 (lowest)   152      65  0.428  0.352  0.507
+Q2            158      71  0.449  0.374  0.527
+Q3            183      74  0.404  0.336  0.477
+Q4 (highest)  254      90  0.354  0.298  0.415
+
+% nominated by era:
+era
+<=1979    59.71
+1980s     38.73
+1990s     30.47
+2000s     19.30
+2010s     17.77
+  [figure] fig_awards_by_budget_quartile.png
+
+Chi-square test (budget quartile x nominated): chi2=46.76, p=3.911e-10
+  [figure] fig_awards_distributions.png
+
+Mann-Whitney tests:
+                         stage       variable  n_group0  n_group1  median_group0  median_group1  mannwhitney_p
+           A: nominated vs not ln_budget_real      2392       747        17.3603        17.6333         0.0000
+           A: nominated vs not   vote_average      2392       747         6.1000         7.1000         0.0000
+           A: nominated vs not      cast_size      2392       747        18.0000        24.0000         0.0000
+           A: nominated vs not      crew_size      2392       747        19.0000        29.0000         0.0000
+B: won vs lost (nominees only) ln_budget_real       447       300        17.6998        17.5708         0.0948
+B: won vs lost (nominees only)   vote_average       447       300         6.9000         7.3000         0.0000
+B: won vs lost (nominees only)      cast_size       447       300        22.0000        28.0000         0.0000
+B: won vs lost (nominees only)      crew_size       447       300        26.0000        31.0000         0.0253
+  [table]  awards_mannwhitney.csv
+
+Top genres among nominated films:
+genres_list
+Drama        485
+Adventure    184
+Comedy       168
+Action       164
+Romance      153
+Thriller     145
+Fantasy       94
+Crime         94
