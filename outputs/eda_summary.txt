@@ -22,7 +22,7 @@ MERGING OSCAR DATA
 ==============================================================================
 Oscar rows (with a film): 10,877   years 1927-2025
 Oscar-nominated films in window: 3,016; matched to analysis set: 747
-  (Unmatched films are expected: TMDB-5000 is a subset and we dropped films lacking budget/revenue.
+  (Unmatched films are expected: TMDB-5000 is a subset, and films lacking budget/revenue were dropped.
    Review tables/oscar_unmatched_check.csv for title-format mismatches, e.g. subtitles or punctuation.)
 Analysis films nominated: 747  |  won >=1 award: 300
 
@@ -135,7 +135,7 @@ era
   [table]  budget_revenue_by_era.csv
   [figure] fig_correlation_by_era.png
 
-Quick preview of RQ1 interaction (full modelling goes in Section 5):
+Quick preview of RQ1 interaction (full modeling goes in Section 5):
 =========================================================================================
                             coef    std err          z      P>|z|      [0.025      0.975]
 -----------------------------------------------------------------------------------------
